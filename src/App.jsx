@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const App = () => {
   const [city, setCity] = useState('');
   const [weatherData, setWeatherData] = useState(null);
+  const apiKey = '5dfb2baeef00b3c207835a8aa17b75d6';
 
-  const handleSearch = () => {
-    // Placeholder for the API call
-    console.log(`Fetching weather for ${city}`);
+  const handleSearch = async () => {
+    if (city) {
+      try {
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+        setWeatherData({
+          city: response.data.name,
+          temperature: response.data.main.temp,
+          description: response.data.weather[0].description,
+        });
+      } catch (error) {
+        console.error('Error fetching the weather data:', error);
+      }
+    }
   };
 
   return (
@@ -32,4 +46,3 @@ const App = () => {
 };
 
 export default App;
-
