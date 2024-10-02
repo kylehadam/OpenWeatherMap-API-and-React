@@ -7,7 +7,7 @@ This is a weather forecasting app built with React and Vite, using the OpenWeath
 - **Search Weather by City**: Enter a city name to fetch weather data.
 - **Hourly Forecast**: View weather in 3-hour intervals for the next 12 hours.
 - **5-Day Forecast**: Get a 5-day weather forecast.
-- **14-Day Forecast (Simulated)**: Simulated forecast for 14 days based on the 5-day forecast.
+- **14-Day Forecast (Simulated)**: Simulated forecast for 14 days based on the 5-day forecast data.
 - **Day View Navigation**: View weather for a specific day with "Next" and "Previous" buttons to navigate through days.
 - **Responsive Design**: Clean, responsive UI using Material UI for a modern look.
 - **Dynamic Weather Information**: Displays temperature, wind speed, weather description, and an icon for each forecast period.

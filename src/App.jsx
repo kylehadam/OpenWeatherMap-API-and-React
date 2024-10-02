@@ -11,6 +11,7 @@ const App = () => {
   const [currentDay, setCurrentDay] = useState(0); // For day-view navigation
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null); // For storing error messages
+
   const apiKey = '5dfb2baeef00b3c207835a8aa17b75d6';
 
   useEffect(() => {
@@ -33,7 +34,8 @@ const App = () => {
       setLoading(true); // Show loading spinner
       setError(null); // Clear previous errors
       try {
-        const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${city},ca&appid=${apiKey}&units=metric`;
+        const units = 'metric'; // Default to Celsius
+        const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${city},ca&appid=${apiKey}&units=${units}`;
         const response = await axios.get(endpoint);
         const forecast = response.data.list;
 
@@ -55,9 +57,10 @@ const App = () => {
           setForecastData([daily[currentDay]]); // Only show the selected day
         }
         setLoading(false); // Remove loading spinner after successful search
-      } catch (error) {
+      } catch (err) {
         setLoading(false); // Remove loading spinner
         setError('Unable to fetch weather data. Please check the city name and try again.');
+        console.error(err); // Log the error to the console
       }
     }
   };
@@ -92,7 +95,7 @@ const App = () => {
           </Typography>
 
           <Typography variant="body1" color="textSecondary" gutterBottom>
-            Enter the city name (e.g., "Vancouver, CA") to get the weather forecast.
+            Enter the city name (e.g., &quot;Vancouver, CA&quot;) to get the weather forecast.
           </Typography>
 
           <Grid container spacing={2} justifyContent="center" className="form-container">
@@ -115,7 +118,7 @@ const App = () => {
                   onChange={(e) => setForecastType(e.target.value)}
                   label="Forecast Type"
                 >
-                  <MenuItem value="hour">Hour by Hour</MenuItem>
+                  <MenuItem value="hour">12-Hour Forecast (3-hour increments)</MenuItem>
                   <MenuItem value="day">5-Day Forecast</MenuItem>
                   <MenuItem value="14day">14-Day Forecast</MenuItem>
                   <MenuItem value="day-view">Day View</MenuItem>
@@ -182,10 +185,10 @@ const App = () => {
                             })}
                       </Typography>
                       <Typography variant="body1">
-                        Temperature: {forecast.main.temp}°C
+                        Temperature: {Math.round(forecast.main.temp)}°C  {/* Temperature displayed in Celsius */}
                       </Typography>
                       <Typography variant="body1">
-                        Wind: {forecast.wind.speed} m/s
+                        Wind: {forecast.wind.speed} m/s  {/* Wind speed in m/s */}
                       </Typography>
                       <Typography variant="body2">
                         {forecast.weather[0].description}
